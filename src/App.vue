@@ -4,12 +4,16 @@
       <Navigation />
       <RouterView />
     </div>
+    <div className="search">
+      <Search />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { RouterView } from "vue-router";
 import Navigation from "./components/Navigation.vue"
+import Search from "./components/Search.vue"
 </script>
 
 <style scoped>
@@ -26,5 +30,11 @@ import Navigation from "./components/Navigation.vue"
   .header {
     display: flex;
     justify-content: space-between;
+  }
+  .search {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 300px;
   }
 </style>
