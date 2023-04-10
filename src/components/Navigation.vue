@@ -1,6 +1,6 @@
     <template>
         <div class="headerContainer">
-            <RouterLink :to="{ name: 'home' }" class="logo">
+            <RouterLink :to="{ name: 'search' }" class="logo">
                 <div class="headerLeft">
                     <img src="../assets/panda.png" class="logoImg"/>
                     <NavLink to="/" class="logoText">Weather</NavLink>

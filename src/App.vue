@@ -2,10 +2,9 @@
   <div class="homeContainer">
     <div className="header">
       <Navigation />
-      <RouterView />
     </div>
-    <div className="search">
-      <Search />
+    <div className="routerView">
+      <RouterView />
     </div>
   </div>
 </template>
@@ -13,7 +12,6 @@
 <script setup>
 import { RouterView } from "vue-router";
 import Navigation from "./components/Navigation.vue"
-import Search from "./components/Search.vue"
 </script>
 
 <style scoped>
@@ -31,10 +29,10 @@ import Search from "./components/Search.vue"
     display: flex;
     justify-content: space-between;
   }
-  .search {
+  .routerView {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 300px;
+    height: 100vh;
   }
 </style>
