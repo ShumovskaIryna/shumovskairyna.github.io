@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
       <Suspense>
         <AsyncCityView />
         <template #fallback>
@@ -12,3 +12,10 @@
 <script setup>
 import AsyncCityView from "../components/AsyncCityView.vue";
 </script>
+
+<style scoped>
+  .container{
+    height: fit-content;
+    width: 100%;
+  }
+</style>
