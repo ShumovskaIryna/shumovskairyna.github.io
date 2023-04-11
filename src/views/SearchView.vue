@@ -1,5 +1,5 @@
   <template>
-    <div class="headerCenter">
+    <div class="container">
         <form v-on:submit={submitHandler}>
             <div class="searchbar">
                 <input
@@ -44,6 +44,12 @@
                 </button>
             </div>
         </form>
+        <img
+          class="rain_panda"
+          src=
+            "../assets/rain_panda.png"
+          alt="rain_panda"
+        />
     </div>
   </template>
 
@@ -92,7 +98,7 @@
   </script>
 
   <style scoped>
-    .headerCenter{
+    .container{
     height: fit-content;
     width: 100%;
     align-items: center;
@@ -141,4 +147,12 @@
     margin: 10px 10px;
     padding: 10px 10px;
     }
+    .rain_panda{
+    position: absolute;
+    bottom: 0;
+    right: 1%;
+    max-width: 200px;
+    margin: 10px;
+    z-index: 1;
+  }
   </style>

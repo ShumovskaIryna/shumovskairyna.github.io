@@ -18,12 +18,11 @@ import Navigation from "./components/Navigation.vue"
   body {
   margin: 0;
   }
-
   .homeContainer {
     background-color: #d3d3d3;
     min-height: 100vh;
     width: 100%;
-    height: auto;
+    height: fit-content;
   }
   .header {
     display: flex;
@@ -33,6 +32,6 @@ import Navigation from "./components/Navigation.vue"
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
   }
 </style>

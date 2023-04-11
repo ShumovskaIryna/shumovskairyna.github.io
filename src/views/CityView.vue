@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="container">
       <Suspense>
-        <CityCard />
+        <AsyncCityView />
         <template #fallback>
           <p>Loading...</p>
         </template>
@@ -10,5 +10,12 @@
 </template>
   
 <script setup>
-import CityCard from "../components/CityCard.vue";
+import AsyncCityView from "../components/AsyncCityView.vue";
 </script>
+
+<style scoped>
+  .container{
+    height: fit-content;
+    width: 100%;
+  }
+</style>
