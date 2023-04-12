@@ -9,8 +9,8 @@
     </div>
     <!-- Weather Overview -->
 
-    <div class="card_field">
-      <div class="card">
+    <div class="daily_info">
+      <div class="city_main_card">
         <h1>{{ route.params.city }}</h1>
         <p class="">
           {{
@@ -32,12 +32,12 @@
             )
           }}
         </p>
-        <p class="">
-          {{ Math.round(weatherData.current.temp) }}&deg;
+        <p class="temperature">
+          {{ Math.round((weatherData.current.temp-32)/1.8) }}&deg;
         </p>
         <p>
           Feels like
-          {{ Math.round(weatherData.current.feels_like) }} &deg;
+          {{ Math.round((weatherData.current.feels_like-32)/1.8) }} &deg;
         </p>
         <p class="">
           {{ weatherData.current.weather[0].description }}
@@ -50,43 +50,15 @@
           alt=""
         />
       </div>
-    </div>
-    <!-- Hourly Weather -->
-    <div class="cards_forecast">
-      <h2 class="title">Hourly Weather</h2>
-      <div class="hour_cards">
-        <div
-          v-for="hourData in weatherData.hourly"
-          :key="hourData.dt"
-          class="hour_card"
-        >
-          <p class="">
-            {{
-              new Date(
-                hourData.currentTime
-              ).toLocaleTimeString("en-us", {
-                hour: "numeric",
-              })
-            }}
-          </p>
-          <img
-            class=""
-            :src="
-              `http://openweathermap.org/img/wn/${hourData.weather[0].icon}@2x.png`
-            "
-            alt=""
-          />
-          <p class="">
-            {{ Math.round(hourData.temp) }}&deg;
-          </p>
-        </div>
+      <!-- Hourly Weather -->
+      <div class="hour_forecast">
+          <canvas id="myChart"></canvas>
       </div>
     </div>
-
     <hr class="" />
 
     <!-- Weekly Weather -->
-    <div class="cards_forecast">
+    <div class="weekly_info">
       <h2 class="title">7 Day Forecast</h2>
       <div class="day_cards">
         <div
@@ -112,8 +84,8 @@
             alt=""
           />
           <div class="">
-            <p>H: {{ Math.round(day.temp.max) }}</p>
-            <p>L: {{ Math.round(day.temp.min) }}</p>
+            <p>H: {{ Math.round((day.temp.max-32)/1.8) }} &deg;</p>
+            <p>L: {{ Math.round((day.temp.min-32)/1.8) }} &deg;</p>
           </div>
         </div>
       </div>
@@ -124,7 +96,11 @@
 <script setup>
 import axios from "axios";
 import { useRoute } from "vue-router";
+import Chart from 'chart.js/auto';
+import { onMounted } from "vue";
+
 const route = useRoute();
+
 const getWeatherData = async () => {
   try {
     const weatherData = await axios.get(
@@ -146,7 +122,82 @@ const getWeatherData = async () => {
     console.log(err);
   }
 };
+
 const weatherData = await getWeatherData();
+
+let hours = weatherData.hourly;
+console.log(hours);
+let temps = [];
+let feels = [];
+
+hours.map(({temp})=>{ 
+  temps.push(Math.round((temp-32)/1.8))
+});
+hours.map(({feels_like})=>{ 
+  feels.push(Math.round((feels_like-32)/1.8))
+});
+
+const timeLables = hours.map(({dt})=> { 
+  return new Date(dt * 1000).toLocaleTimeString("en-us", {hour: "numeric"});
+});
+
+console.log(timeLables)
+const data = {
+  labels: timeLables,
+  datasets: [{
+    label: 'Real tempetature',
+    backgroundColor: 'rgb(255, 140, 95)',
+    borderColor: 'rgb(255, 140, 95)',
+    data: temps,
+  },
+  {
+    label: 'Feels like',
+    backgroundColor: 'rgb(255, 222, 116)',
+    borderColor: 'rgb(255, 222, 116)',
+    data: feels,
+  }]
+};
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Hourly forecast'
+      },
+    },
+    interaction: {
+      intersect: false,
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true
+        }
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Temperature'
+        },
+        suggestedMin: Math.min(...temps),
+        suggestedMax: Math.max(...temps)
+      }
+    }
+  },
+};
+onMounted(() => {
+  const myChart = 
+  new Chart(
+    document.getElementById('myChart'), 
+    config
+  );
+})
+
 </script>
 
 <style scoped>
@@ -165,28 +216,44 @@ const weatherData = await getWeatherData();
     text-align: center;
     background-color: rgb(251, 148, 88);
   }
-  .card_field {
-    position: relative;
-    display: flex;
+  .daily_info {
     width: 100%;
-    height: auto;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .card {
+    position: relative;
     display: inline-block;
+    min-width: 90%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px;
+    margin-left: -7px;
+  }
+  .city_main_card, .hour_forecast{
+    position: relative;
+    display: inline-block;
+    max-height: 340px;
+    height: 50%;
     text-align: center;
+  }
+  .city_main_card {
     min-width: 300px;
-    margin: 10px;
-    background-color: #b5b5b5;
-    justify-content: center;
-    transition: box-shadow 500ms ease;
+    width: 30%;
+    margin: 15px;
   }
-  .card:hover {
-    box-shadow: 4px 4px 10px 3px grey;
+  .temperature{
+    font-size: 45px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
   }
-  .cards_forecast {
+  .hour_forecast{
+    display: inline-flex;
+    margin: 5px;
+    padding: 5px;
+    min-width: 330px;
+    width: 60%;
+  }
+  .weekly_info {
     position: relative;
     display: flex;
     width: 100%;
@@ -196,28 +263,22 @@ const weatherData = await getWeatherData();
   .title{
     text-align: center;
   }
-  .hour_cards, .day_cards {
-    display: inline-block;
+  .day_cards {
     position: relative;
-    min-width: 90%;
-    height: auto;
+    display: inline-block;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    min-width: 90%;
+    height: auto;
     padding: 10px;
   }
-  .hour_card, .day_card {
-    text-align: center;
-    background-color: #b5b5b5;
-    display: inline-block;
-    position: relative;
-    height: auto;
-  }
-  .hour_card {
-    width: 115px;
-    margin: 15px;
-  }
   .day_card {
+    position: relative;
+    display: inline-block;
+    background-color: #b5b5b5;
+    text-align: center;
+    height: auto;
     width: 130px;
     margin: 9px;
   }
