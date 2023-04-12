@@ -32,12 +32,12 @@
             )
           }}
         </p>
-        <p class="">
-          {{ Math.round(weatherData.current.temp) }}&deg;
+        <p class="temperature">
+          {{ Math.round((weatherData.current.temp-32)/1.8) }}&deg;
         </p>
         <p>
           Feels like
-          {{ Math.round(weatherData.current.feels_like) }} &deg;
+          {{ Math.round((weatherData.current.feels_like-32)/1.8) }} &deg;
         </p>
         <p class="">
           {{ weatherData.current.weather[0].description }}
@@ -55,38 +55,6 @@
           <canvas id="myChart"></canvas>
       </div>
     </div>
-    
-    <!-- <div class="cards_forecast">
-      <h2 class="title">Hourly Weather</h2>
-      <div class="hour_cards">
-        <div
-          v-for="hourData in weatherData.hourly"
-          :key="hourData.dt"
-          class="hour_card"
-        >
-          <p class="">
-            {{
-              new Date(
-                hourData.currentTime
-              ).toLocaleTimeString("en-us", {
-                hour: "numeric",
-              })
-            }}
-          </p>
-          <img
-            class=""
-            :src="
-              `http://openweathermap.org/img/wn/${hourData.weather[0].icon}@2x.png`
-            "
-            alt=""
-          />
-          <p class="">
-            {{ Math.round(hourData.temp) }}&deg;
-          </p>
-        </div>
-      </div>
-    </div> -->
-
     <hr class="" />
 
     <!-- Weekly Weather -->
@@ -116,8 +84,8 @@
             alt=""
           />
           <div class="">
-            <p>H: {{ Math.round(day.temp.max) }}</p>
-            <p>L: {{ Math.round(day.temp.min) }}</p>
+            <p>H: {{ Math.round((day.temp.max-32)/1.8) }} &deg;</p>
+            <p>L: {{ Math.round((day.temp.min-32)/1.8) }} &deg;</p>
           </div>
         </div>
       </div>
@@ -131,44 +99,8 @@ import { useRoute } from "vue-router";
 import Chart from 'chart.js/auto';
 import { onMounted } from "vue";
 
-const labels = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
-
-const data = {
-  labels: labels,
-  datasets: [{
-    label: 'Real tempetature',
-    backgroundColor: 'rgb(55, 55, 87)',
-    borderColor: 'rgb(55, 55, 87)',
-    data: [12, 8, 9, 6, 4, 15, 5, 23, 7, 21],
-  },
-  {
-    label: 'Feels like',
-    backgroundColor: 'rgb(255, 55, 87)',
-    borderColor: 'rgb(255, 55, 87)',
-    data: [ 8, 12, 9, 13, 2, 9, 13, 7, 6, 2],
-  }]
-};
-const config = {
-  type: 'line',
-  data: data,
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    }
-  }
-  };
-onMounted(() => {
-  const myChart = 
-  new Chart(
-    document.getElementById('myChart'), 
-    config
-  );
-})
-
 const route = useRoute();
+
 const getWeatherData = async () => {
   try {
     const weatherData = await axios.get(
@@ -190,7 +122,82 @@ const getWeatherData = async () => {
     console.log(err);
   }
 };
+
 const weatherData = await getWeatherData();
+
+let hours = weatherData.hourly;
+console.log(hours);
+let temps = [];
+let feels = [];
+
+hours.map(({temp})=>{ 
+  temps.push(Math.round((temp-32)/1.8))
+});
+hours.map(({feels_like})=>{ 
+  feels.push(Math.round((feels_like-32)/1.8))
+});
+
+const timeLables = hours.map(({dt})=> { 
+  return new Date(dt * 1000).toLocaleTimeString("en-us", {hour: "numeric"});
+});
+
+console.log(timeLables)
+const data = {
+  labels: timeLables,
+  datasets: [{
+    label: 'Real tempetature',
+    backgroundColor: 'rgb(255, 140, 95)',
+    borderColor: 'rgb(255, 140, 95)',
+    data: temps,
+  },
+  {
+    label: 'Feels like',
+    backgroundColor: 'rgb(255, 222, 116)',
+    borderColor: 'rgb(255, 222, 116)',
+    data: feels,
+  }]
+};
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Hourly forecast'
+      },
+    },
+    interaction: {
+      intersect: false,
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true
+        }
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Temperature'
+        },
+        suggestedMin: Math.min(...temps),
+        suggestedMax: Math.max(...temps)
+      }
+    }
+  },
+};
+onMounted(() => {
+  const myChart = 
+  new Chart(
+    document.getElementById('myChart'), 
+    config
+  );
+})
+
 </script>
 
 <style scoped>
@@ -232,6 +239,12 @@ const weatherData = await getWeatherData();
     min-width: 300px;
     width: 30%;
     margin: 15px;
+  }
+  .temperature{
+    font-size: 45px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
   }
   .hour_forecast{
     display: inline-flex;
