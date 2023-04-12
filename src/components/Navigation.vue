@@ -6,6 +6,11 @@
                     <NavLink to="/" class="logoText">Weather</NavLink>
                 </div>
             </RouterLink>
+            <RouterLink :to="{ name: 'savedCities' }" class="logo">
+                <div class="headerLeft">
+                    <NavLink to="/savedCities" class="logoText">Saved Cities</NavLink>
+                </div>
+            </RouterLink>
             <font-awesome-icon icon="fa-solid fa-plus" style="color: #000000; cursor: pointer;" 
             @click="addCity"
             v-if="route.query.preview"/>
