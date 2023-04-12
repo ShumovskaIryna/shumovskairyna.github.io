@@ -9,8 +9,8 @@
     </div>
     <!-- Weather Overview -->
 
-    <div class="card_field">
-      <div class="card">
+    <div class="daily_info">
+      <div class="city_main_card">
         <h1>{{ route.params.city }}</h1>
         <p class="">
           {{
@@ -50,9 +50,13 @@
           alt=""
         />
       </div>
+      <!-- Hourly Weather -->
+      <div class="hour_forecast">
+          <canvas id="myChart"></canvas>
+      </div>
     </div>
-    <!-- Hourly Weather -->
-    <div class="cards_forecast">
+    
+    <!-- <div class="cards_forecast">
       <h2 class="title">Hourly Weather</h2>
       <div class="hour_cards">
         <div
@@ -81,12 +85,12 @@
           </p>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <hr class="" />
 
     <!-- Weekly Weather -->
-    <div class="cards_forecast">
+    <div class="weekly_info">
       <h2 class="title">7 Day Forecast</h2>
       <div class="day_cards">
         <div
@@ -124,6 +128,46 @@
 <script setup>
 import axios from "axios";
 import { useRoute } from "vue-router";
+import Chart from 'chart.js/auto';
+import { onMounted } from "vue";
+
+const labels = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'Real tempetature',
+    backgroundColor: 'rgb(55, 55, 87)',
+    borderColor: 'rgb(55, 55, 87)',
+    data: [12, 8, 9, 6, 4, 15, 5, 23, 7, 21],
+  },
+  {
+    label: 'Feels like',
+    backgroundColor: 'rgb(255, 55, 87)',
+    borderColor: 'rgb(255, 55, 87)',
+    data: [ 8, 12, 9, 13, 2, 9, 13, 7, 6, 2],
+  }]
+};
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    }
+  }
+  };
+onMounted(() => {
+  const myChart = 
+  new Chart(
+    document.getElementById('myChart'), 
+    config
+  );
+})
+
 const route = useRoute();
 const getWeatherData = async () => {
   try {
@@ -165,28 +209,38 @@ const weatherData = await getWeatherData();
     text-align: center;
     background-color: rgb(251, 148, 88);
   }
-  .card_field {
-    position: relative;
-    display: flex;
+  .daily_info {
     width: 100%;
-    height: auto;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .card {
+    position: relative;
     display: inline-block;
+    min-width: 90%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px;
+    margin-left: -7px;
+  }
+  .city_main_card, .hour_forecast{
+    position: relative;
+    display: inline-block;
+    max-height: 340px;
+    height: 50%;
     text-align: center;
+  }
+  .city_main_card {
     min-width: 300px;
-    margin: 10px;
-    background-color: #b5b5b5;
-    justify-content: center;
-    transition: box-shadow 500ms ease;
+    width: 30%;
+    margin: 15px;
   }
-  .card:hover {
-    box-shadow: 4px 4px 10px 3px grey;
+  .hour_forecast{
+    display: inline-flex;
+    margin: 5px;
+    padding: 5px;
+    min-width: 330px;
+    width: 60%;
   }
-  .cards_forecast {
+  .weekly_info {
     position: relative;
     display: flex;
     width: 100%;
@@ -196,28 +250,22 @@ const weatherData = await getWeatherData();
   .title{
     text-align: center;
   }
-  .hour_cards, .day_cards {
-    display: inline-block;
+  .day_cards {
     position: relative;
-    min-width: 90%;
-    height: auto;
+    display: inline-block;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    min-width: 90%;
+    height: auto;
     padding: 10px;
   }
-  .hour_card, .day_card {
-    text-align: center;
-    background-color: #b5b5b5;
-    display: inline-block;
-    position: relative;
-    height: auto;
-  }
-  .hour_card {
-    width: 115px;
-    margin: 15px;
-  }
   .day_card {
+    position: relative;
+    display: inline-block;
+    background-color: #b5b5b5;
+    text-align: center;
+    height: auto;
     width: 130px;
     margin: 9px;
   }
