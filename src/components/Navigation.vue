@@ -1,97 +1,109 @@
-    <template>
-        <div class="headerContainer">
+<template>
+    <div class="headerContainer">
+        <div class="headerLeft">
             <RouterLink :to="{ name: 'search' }" class="logo">
-                <div class="headerLeft">
-                    <img src="../assets/panda.png" class="logoImg"/>
-                    <NavLink to="/" class="logoText">Weather</NavLink>
-                </div>
+                    <img src="../assets/panda_black&white.png" class="logoImg"/>
+                    <p class="logoText">Weather</p>
             </RouterLink>
             <RouterLink :to="{ name: 'savedCities' }" class="logo">
-                <div class="headerLeft">
-                    <NavLink to="/savedCities" class="logoText">Saved Cities</NavLink>
-                </div>
+                    <p class="logoText">
+                        Saved Cities
+                    </p>
             </RouterLink>
-            <font-awesome-icon icon="fa-solid fa-plus" style="color: #000000; cursor: pointer;" 
+        </div>
+        <div class="headerCenter">
+            <font-awesome-icon class="plus" icon="fa-solid fa-plus" size="lg" style="color: #FFFFFF; cursor: pointer;" 
             @click="addCity"
             v-if="route.query.preview"/>
         </div>
-    </template>
+        <div class="headerRight">
+            <font-awesome-icon class="lung" icon="fa-solid fa-language" size="lg" style="color: #FFFFFF; cursor: pointer;" @click=""/>
+            <font-awesome-icon class="thema" icon="fa-solid fa-sun" size="lg" style="color: #FFFFFF;" />
+        </div>
+    </div>
+</template>
   
-    <script setup>
-    import { RouterLink, useRoute, useRouter } from "vue-router";
-    import { createApp } from 'vue'
-    import App from '../App.vue'
-    import { library } from '@fortawesome/fontawesome-svg-core'
-    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-    import { faPlus } from '@fortawesome/free-solid-svg-icons'
-    import { uid } from "uid";
-    import { ref } from "vue";
-    library.add(faPlus)
+<script setup>
+import { RouterLink, useRoute, useRouter } from "vue-router";
+import { createApp } from 'vue'
+import App from '../App.vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faPlus, faLanguage, faSun } from '@fortawesome/free-solid-svg-icons'
+import { uid } from "uid";
+import { ref } from "vue";
+library.add(faPlus, faLanguage, faSun)
 
-    createApp(App)
-    .component('font-awesome-icon', FontAwesomeIcon)
+createApp(App)
+.component('font-awesome-icon', FontAwesomeIcon)
 
-    const savedCities = ref([]);
-    const route = useRoute();
-    const router = useRouter();
-    const addCity = () => {
-        if (localStorage.getItem("savedCities")) {
-        savedCities.value = JSON.parse(
-            localStorage.getItem("savedCities")
-        );
-        }
-        const locationObj = {
-        id: uid(),
-        state: route.params.state,
-        city: route.params.city,
-        coords: {
-            lat: route.query.lat,
-            lng: route.query.lng,
-        },
-        };
-        savedCities.value.push(locationObj);
-        localStorage.setItem(
-        "savedCities",
-        JSON.stringify(savedCities.value)
-        );
-        let query = Object.assign({}, route.query);
-        delete query.preview;
-        router.replace({ query });
+const savedCities = ref([]);
+const route = useRoute();
+const router = useRouter();
+const addCity = () => {
+    if (localStorage.getItem("savedCities")) {
+    savedCities.value = JSON.parse(
+        localStorage.getItem("savedCities")
+    );
+    }
+    const locationObj = {
+    id: uid(),
+    state: route.params.state,
+    city: route.params.city,
+    coords: {
+        lat: route.query.lat,
+        lng: route.query.lng,
+    },
     };
-    </script>
-  
-    <style scoped>
-        .headerContainer {
-        height: 80px;
-        width: 100%;
-        margin-bottom: 10px;
-        background-color: #b5b5b5;
-        display: flex;
-        align-items: center;
-        position: sticky;
-        top: 0;
-        z-index: 999;
-        }
-        .headerLeft {
-        flex: 2;
-        }
-        .logo {
-        cursor: pointer;
-        text-decoration-line: none;
-        padding: 10px;
-        }
-        .logoText {
-        font-size: 20px;
-        margin-left: 20px;
-        margin-right: 20px;
-        font-weight: bold;
-        color: rgb(0, 0, 0);
-        }
-        .logoImg{
-        height: 50px;
-        align-items: center;
-        display: flex;        
-        margin-left: 30px;
-        margin-right: 30px;
-        }
-    </style>
+    savedCities.value.push(locationObj);
+    localStorage.setItem(
+    "savedCities",
+    JSON.stringify(savedCities.value)
+    );
+    let query = Object.assign({}, route.query);
+    delete query.preview;
+    router.replace({ query });
+};
+</script>
+
+<style scoped>
+.headerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    }
+.headerLeft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 2;
+}
+.headerCenter{
+    text-align: center;
+    flex: 1;
+}
+.headerRight{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    flex: 2;
+}
+.logo, .plus, .lung, .thema {
+    cursor: pointer;
+    text-decoration-line: none;
+    padding: 10px 15px;
+}
+.logoText {
+    font-size: 18px;
+    margin: 1px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+.logoImg{
+    margin-left: 10px;
+    height: 50px;
+    align-items: center;
+    display: flex;
+}
+</style>

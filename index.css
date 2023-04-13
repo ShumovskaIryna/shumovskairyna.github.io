@@ -1,0 +1,10 @@
+body{
+    margin: 0;
+    background: linear-gradient(#8a5d96, #4b4593);
+}
+.wrapper {
+    display:flex;
+    min-height: 100%;
+    overflow: hidden;
+    flex-direction: column;
+}

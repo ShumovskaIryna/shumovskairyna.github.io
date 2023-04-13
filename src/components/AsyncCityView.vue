@@ -8,7 +8,6 @@
       </p>
     </div>
     <!-- Weather Overview -->
-
     <div class="daily_info">
       <div class="city_main_card">
         <h1>{{ route.params.city }}</h1>
@@ -42,20 +41,15 @@
         <p class="">
           {{ weatherData.current.weather[0].description }}
         </p>
-        <img
-          class=""
-          :src="
-            `http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`
-          "
-          alt=""
-        />
+        <img :src="`http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`"/>
       </div>
       <!-- Hourly Weather -->
       <div class="hour_forecast">
+        <h2 class="title">48 Hour Forecast</h2>
           <canvas id="myChart"></canvas>
       </div>
     </div>
-    <hr class="" />
+    <hr class="line" />
 
     <!-- Weekly Weather -->
     <div class="weekly_info">
@@ -76,13 +70,7 @@
               )
             }}
           </p>
-          <img
-            class=""
-            :src="
-              `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`
-            "
-            alt=""
-          />
+          <img :src="`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`"/>
           <div class="">
             <p>H: {{ Math.round((day.temp.max-32)/1.8) }} &deg;</p>
             <p>L: {{ Math.round((day.temp.min-32)/1.8) }} &deg;</p>
@@ -141,19 +129,18 @@ const timeLables = hours.map(({dt})=> {
   return new Date(dt * 1000).toLocaleTimeString("en-us", {hour: "numeric"});
 });
 
-console.log(timeLables)
 const data = {
   labels: timeLables,
   datasets: [{
     label: 'Real tempetature',
-    backgroundColor: 'rgb(255, 140, 95)',
-    borderColor: 'rgb(255, 140, 95)',
+    backgroundColor: 'rgb(0, 135, 255)',
+    borderColor: 'rgb(0, 135, 255)',
     data: temps,
   },
   {
     label: 'Feels like',
-    backgroundColor: 'rgb(255, 222, 116)',
-    borderColor: 'rgb(255, 222, 116)',
+    backgroundColor: 'rgb(255, 235, 0)',
+    borderColor: 'rgb(255, 235, 0)',
     data: feels,
   }]
 };
@@ -163,10 +150,6 @@ const config = {
   options: {
     responsive: true,
     plugins: {
-      title: {
-        display: true,
-        text: 'Hourly forecast'
-      },
     },
     interaction: {
       intersect: false,
@@ -197,89 +180,155 @@ onMounted(() => {
     config
   );
 })
-
 </script>
 
 <style scoped>
-  .cityContainer{
-    height: fit-content;
-    min-width: 80%;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 20px 20px 20px;
+.cityContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+.alert{
+  width: 100%;
+  height: fit-content;
+  min-height: 40px;
+  padding: 10px 0;
+  text-align: center;
+  background-color: rgb(110, 145, 0);
+}
+p {
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+}
+h1, h2 {
+  font-size: 24px;
+  color: rgb(255, 255, 255);
+}
+.daily_info {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.city_main_card, .hour_forecast{
+  position: relative;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin: 10px;
+}
+.city_main_card {
+  width: 30%;
+}
+.temperature{
+  font-size: 45px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+.hour_forecast{
+  width: 80%;
+}
+#myChart{
+  width: 100%;
+}
+.line{
+  width: 90%;
+}
+.weekly_info {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.title{
+  text-align: center;
+}
+.day_cards {
+  position: relative;
+  display: inline-table;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+.day_card {
+  position: relative;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  text-align: center;
+  height: auto;
+  width: 11%;
+  margin: 6px;
+}
+@media (max-width:1300px) {
+  .cityContainer {
+    max-width: 970px;
+  }
+}
+@media (max-width:992px) {
+  .cityContainer {
+    max-width: 750px;
+  }
+  .day_card {
+    width: 22%;
+    margin: 10px;
+  }
+}
+@media (max-width:767px) {
+  .cityContainer {
+    max-width: 520px;
   }
   .alert{
     width: 100%;
-    height: fit-content;
-    min-height: 40px;
-    padding: 10px 0 10px 0;
-    text-align: center;
-    background-color: rgb(251, 148, 88);
+    padding: 10px;
   }
   .daily_info {
-    width: 100%;
-    position: relative;
-    display: inline-block;
-    min-width: 90%;
-    height: auto;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px;
-    margin-left: -7px;
-  }
-  .city_main_card, .hour_forecast{
-    position: relative;
-    display: inline-block;
-    max-height: 340px;
-    height: 50%;
-    text-align: center;
+    flex-direction: column;
   }
   .city_main_card {
-    min-width: 300px;
-    width: 30%;
-    margin: 15px;
-  }
-  .temperature{
-    font-size: 45px;
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
+    width: 100%;
   }
   .hour_forecast{
-    display: inline-flex;
-    margin: 5px;
-    padding: 5px;
-    min-width: 330px;
-    width: 60%;
-  }
-  .weekly_info {
-    position: relative;
-    display: flex;
     width: 100%;
-    flex-direction: column;
-    justify-content: space-between;
+    margin: 0;
   }
-  .title{
-    text-align: center;
+  .day_card {
+    width: 23%;
+    margin: 4px;
   }
-  .day_cards {
-    position: relative;
-    display: inline-block;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    min-width: 90%;
-    height: auto;
+}
+@media (max-width:530px) {
+  .cityContainer {
+    max-width: 450px;
+  }
+  .alert{
+    width: 90%;
     padding: 10px;
   }
   .day_card {
-    position: relative;
-    display: inline-block;
-    background-color: #b5b5b5;
-    text-align: center;
-    height: auto;
-    width: 130px;
-    margin: 9px;
+    width: 26%;
+    margin: 5px;
   }
+}
+@media (max-width:395px) {
+  .cityContainer {
+    max-width: 300px;
+  }
+  .alert{
+    width: 95%;
+  }
+  .day_card {
+    width: 30%;
+    margin: 5px;
+  }
+}
 </style>
