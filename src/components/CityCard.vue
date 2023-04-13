@@ -1,6 +1,6 @@
 <template>
   <div class="day_card">
-  <h2>{{ city.city }} | <font-awesome-icon class="trash" icon="fa-solid fa-trash" size="lg" style="color: #FFF;" /></h2>
+    <h2>{{ city.city }}</h2>
     <p>
       {{ Math.round((city.weather.main.temp-32)/1.8) }}&deg; C
     </p>
@@ -40,10 +40,5 @@ p {
 h1, h2 {
   font-size: 24px;
   color: rgb(255, 255, 255);
-}
-.trash {
-  position: relative;
-  font-size: 20px;
-  margin-left: 7px;
 }
 </style>

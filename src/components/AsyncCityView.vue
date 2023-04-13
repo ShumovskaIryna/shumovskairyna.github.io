@@ -78,14 +78,28 @@
         </div>
       </div>
     </div>
+    <div class="remove" @click="removeCity">
+      <p><font-awesome-icon class="trash" icon="fa-solid fa-trash" size="sm" /> 
+        Remove city
+      </p>
+    </div>
   </div>
 </template>
   
 <script setup>
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Chart from 'chart.js/auto';
 import { onMounted } from "vue";
+import { createApp } from 'vue'
+import App from '../App.vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faTrash} from '@fortawesome/free-solid-svg-icons'
+library.add(faTrash)
+
+createApp(App)
+.component('font-awesome-icon', FontAwesomeIcon)
 
 const route = useRoute();
 
@@ -112,6 +126,21 @@ const getWeatherData = async () => {
 };
 
 const weatherData = await getWeatherData();
+
+const router = useRouter();
+const removeCity = () => {
+  const cities = JSON.parse(localStorage.getItem("savedCities"));
+  const updatedCities = cities.filter(
+    (city) => city.id !== route.query.id
+  );
+  localStorage.setItem(
+    "savedCities",
+    JSON.stringify(updatedCities)
+  );
+  router.push({
+    name: "savedCities",
+  });
+};
 
 let hours = weatherData.hourly;
 console.log(hours);
@@ -330,5 +359,15 @@ h1, h2 {
     width: 30%;
     margin: 5px;
   }
+}
+.remove {
+  cursor: pointer;
+}
+.trash {
+  color: white;
+  margin: 0 10px;
+}
+.trash:hover {
+ color: rgb(255, 116, 116);
 }
 </style>
