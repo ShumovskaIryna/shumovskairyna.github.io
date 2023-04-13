@@ -6,11 +6,58 @@
                     <NavLink to="/" class="logoText">Weather</NavLink>
                 </div>
             </RouterLink>
+            <RouterLink :to="{ name: 'savedCities' }" class="logo">
+                <div class="headerLeft">
+                    <NavLink to="/savedCities" class="logoText">Saved Cities</NavLink>
+                </div>
+            </RouterLink>
+            <font-awesome-icon icon="fa-solid fa-plus" style="color: #000000; cursor: pointer;" 
+            @click="addCity"
+            v-if="route.query.preview"/>
         </div>
     </template>
   
     <script setup>
-    import { RouterLink } from "vue-router";
+    import { RouterLink, useRoute, useRouter } from "vue-router";
+    import { createApp } from 'vue'
+    import App from '../App.vue'
+    import { library } from '@fortawesome/fontawesome-svg-core'
+    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+    import { faPlus } from '@fortawesome/free-solid-svg-icons'
+    import { uid } from "uid";
+    import { ref } from "vue";
+    library.add(faPlus)
+
+    createApp(App)
+    .component('font-awesome-icon', FontAwesomeIcon)
+
+    const savedCities = ref([]);
+    const route = useRoute();
+    const router = useRouter();
+    const addCity = () => {
+        if (localStorage.getItem("savedCities")) {
+        savedCities.value = JSON.parse(
+            localStorage.getItem("savedCities")
+        );
+        }
+        const locationObj = {
+        id: uid(),
+        state: route.params.state,
+        city: route.params.city,
+        coords: {
+            lat: route.query.lat,
+            lng: route.query.lng,
+        },
+        };
+        savedCities.value.push(locationObj);
+        localStorage.setItem(
+        "savedCities",
+        JSON.stringify(savedCities.value)
+        );
+        let query = Object.assign({}, route.query);
+        delete query.preview;
+        router.replace({ query });
+    };
     </script>
   
     <style scoped>
