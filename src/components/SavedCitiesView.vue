@@ -4,10 +4,11 @@
       <CityCard :city="city" @click="goToCityView(city)" />
     </div>
   </div>
-  <p v-if="savedCities.length === 0">
-    No locations added. To start tracking a location, search in
-    the field above.
-  </p>
+  <div v-if="savedCities.length === 0" class="alertContainer">
+    <p >
+      No locations added. To start tracking a location, search on home page.
+    </p>
+  </div>
 </template>
     
 <script setup>
@@ -42,12 +43,12 @@ const goToCityView = (city) => {
     name: "cityView",
     params: { state: city.state, city: city.city },
     query: {
+      id: city.id,
       lat: city.coords.lat,
       lng: city.coords.lng,
     },
   });
 };
-console.log(savedCities)
 </script>
 
 <style scoped>
@@ -66,6 +67,16 @@ console.log(savedCities)
   width: 31%;
   cursor: pointer;
   margin: 10px;
+}
+.alertContainer {
+  position: relative;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 95%;
+  cursor: pointer;
+  margin: 10px;
+  color:aliceblue;
 }
 @media (max-width: 992px) {
   .citiesContainer{
