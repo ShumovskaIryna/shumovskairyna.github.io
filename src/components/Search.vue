@@ -144,18 +144,19 @@ const getSearchResults = () => {
   width: 90%;
 }
 .suggestion_list{
-  background-color: #d3d3d3;
+  background-color: rgba(0, 0, 0, 0.2);
   width: auto;
   text-align: start;
   padding: 10px 10px;
 }
 .suggestion_city{
-  background-color: rgb(202, 202, 202);
+  background-color: rgba(0, 0, 0, 0.4);
   list-style: none;
   font-size: medium;
   cursor: pointer;
   margin: 10px 10px;
   padding: 10px 10px;
+  color: white;
 }
 .rain_panda{
   position: absolute;

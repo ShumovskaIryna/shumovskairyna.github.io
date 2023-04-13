@@ -44,5 +44,6 @@ h1, h2 {
 .trash {
   position: relative;
   font-size: 20px;
+  margin-left: 7px;
 }
 </style>
