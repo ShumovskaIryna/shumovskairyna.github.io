@@ -1,5 +1,5 @@
 <template>
-  <div class="saved_cities">
+  <div class="citiesContainer">
     <div class="city_card" v-for="city in savedCities" :key="city.id">
       <CityCard :city="city" @click="goToCityView(city)" />
     </div>
@@ -51,22 +51,48 @@ console.log(savedCities)
 </script>
 
 <style scoped>
-.saved_cities{
-  position: relative;
+.citiesContainer{
   display: inline-block;
-  min-width: 60%;
-  max-width: 97%;
-  justify-content: space-between;
-  padding: 10px 50px 10px 50px;
-  margin: 14px;
+  width: 92%;
+  justify-content: center;
+  padding: 50px 30px 10px 20px;
+  margin: 0px;
 }
 .city_card {
   position: relative;
   display: inline-block;
-  background-color: #b5b5b5;
+  background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
-  width: 205px;
-  margin: 5px 5px 5px 10px;
+  width: 31%;
   cursor: pointer;
+  margin: 10px;
+}
+@media (max-width: 992px) {
+  .citiesContainer{
+    display: inline-block;
+    margin: 0px;
+  }
+  .city_card {
+    width: 31%;
+    margin: 5px;
+  }
+}
+@media (max-width:767px) {
+  .city_card {
+    width: 43%;
+    margin: 15px;
+  }
+}
+@media (max-width:530px) {
+  .city_card {
+    width: 48%;
+    margin: 2px;
+  }
+}
+@media (max-width:395px) {
+  .city_card {
+    width: 90%;
+    margin-left: 15px;
+  }
 }
 </style>

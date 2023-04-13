@@ -1,11 +1,11 @@
 <template>
-  <div class="homeContainer">
-    <div className="header">
+  <div class="container">
+    <header className="header">
       <Navigation />
-    </div>
-    <div className="routerView">
+    </header>
+    <main className="routerView">
       <RouterView />
-    </div>
+    </main>
   </div>
 </template>
 
@@ -15,23 +15,63 @@ import Navigation from "./components/Navigation.vue"
 </script>
 
 <style scoped>
-  body {
-  margin: 0;
-  }
-  .homeContainer {
-    background-color: #d3d3d3;
-    min-height: 100vh;
-    width: 100%;
-    height: fit-content;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
+.container {
+  background-color: rgba(0, 0, 0, 0.4);
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 80px;
+  height: fit-content;
+}
+.header {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  right: 0;
+  z-index: 90;
+}
+.routerView {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 360px;
+}
+@media (max-width:1300px) {
+  .container {
+    max-width: 970px;
   }
   .routerView {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    min-height: 100vh;
+    min-width: 992px;
   }
+}
+@media (max-width:992px) {
+  .container {
+    max-width: 750px;
+  }
+  .routerView {
+    min-width: 767px;
+  }
+}
+@media (max-width:767px) {
+  .container {
+    max-width: 520px;
+  }
+  .routerView {
+    min-width: 530px;
+  }
+}
+@media (max-width:530px) {
+  .container {
+    max-width: 450px;
+  }
+  .routerView {
+    min-width: 360px;
+  }
+}
+@media (max-width:350px) {
+  .container {
+    max-width: 300px;
+  }
+}
 </style>
