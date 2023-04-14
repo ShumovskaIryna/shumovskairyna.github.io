@@ -8,10 +8,10 @@
     </Suspense>
   </div>
 </template>
-  
+
 <script setup>
-import Loader from "../components/Loader.vue";
-import AsyncCityView from "../components/AsyncCityView.vue";
+import Loader from '../components/Loader.vue'
+import AsyncCityView from '../components/AsyncCityView.vue'
 </script>
 
 <style scoped>

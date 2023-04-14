@@ -1,62 +1,69 @@
 <template>
   <div class="citiesContainer">
-    <div class="city_card" v-for="city in savedCities" :key="city.id">
-      <CityCard 
+    <div
+      v-for="city in savedCities"
+      :key="city.id"
+      class="city_card"
+    >
+      <CityCard
         :city="city"
-        :removeCity = removeCity
-       />
+        :remove-city="removeCity"
+      />
     </div>
   </div>
-  <div v-if="savedCities.length === 0" class="alertContainer">
-    <p >
+  <div
+    v-if="savedCities.length === 0"
+    class="alertContainer"
+  >
+    <p>
       No locations added. To start tracking a location, search on home page.
     </p>
   </div>
 </template>
-    
+
 <script setup>
-import axios from "axios";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import CityCard from "./CityCard.vue";
-const savedCities = ref([]);
+import axios from 'axios'
+import { ref, onMounted } from 'vue'
+import CityCard from './CityCard.vue'
+const savedCities = ref([])
 
 const getCities = async () => {
-  if (localStorage.getItem("savedCities")) {
+  if (localStorage.getItem('savedCities')) {
     savedCities.value = JSON.parse(
-      localStorage.getItem("savedCities")
-    );
-    const requests = [];
+      localStorage.getItem('savedCities')
+    )
+    const requests = []
     savedCities.value.forEach((city) => {
       requests.push(
         axios.get(
           `https://api.openweathermap.org/data/2.5/weather?lat=${city.coords.lat}&lon=${city.coords.lng}&appid=7efa332cf48aeb9d2d391a51027f1a71&units=imperial`
         )
-      );
-    });
-    const weatherData = await Promise.all(requests);
+      )
+    })
+    const weatherData = await Promise.all(requests)
     weatherData.forEach((value, index) => {
-      savedCities.value[index].weather = value.data;
-    });
+      savedCities.value[index].weather = value.data
+    })
   }
-};
-await getCities();
-const router = useRouter();
+}
 
 const removeCity = async (cityToDelete) => {
-  console.log('cityToDelete', cityToDelete.id);
-  const cities = JSON.parse(localStorage.getItem("savedCities"));
-  
+  console.log('cityToDelete', cityToDelete.id)
+  const cities = JSON.parse(localStorage.getItem('savedCities'))
+
   const updatedCities = cities.filter(
     (city) => city.id !== cityToDelete.id
-  );
+  )
   localStorage.setItem(
-    "savedCities",
+    'savedCities',
     JSON.stringify(updatedCities)
-  );
-  await getCities();
-  const cities2 = JSON.parse(localStorage.getItem("savedCities"));
-};
+  )
+  await getCities()
+}
+
+onMounted(async () => {
+  await getCities()
+})
 
 </script>
 

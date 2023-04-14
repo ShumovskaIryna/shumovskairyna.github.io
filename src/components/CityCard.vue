@@ -1,22 +1,42 @@
 <template>
-  <div class="day_card" v-if="city.weather">
+  <div
+    v-if="city.weather"
+    class="day_card"
+  >
     <h2>{{ city.city }}</h2>
     <p>
       {{ Math.round((city.weather.main.temp-32)/1.8) }}&deg; C
     </p>
-    <img :src="`http://openweathermap.org/img/wn/${city.weather.weather[0].icon}@2x.png`"/>
-    <div class="remove" >
-      <button @click="goToCityView(city)"> Details</button>
+    <img :src="`http://openweathermap.org/img/wn/${city.weather.weather[0].icon}@2x.png`">
+    <div class="remove">
+      <button @click="goToCityView(city)">
+        Details
+      </button>
       <button @click="() => TogglePopup('buttonTrigger')">
-        <font-awesome-icon class="trash" icon="fa-solid fa-trash" size="sm" />
+        <font-awesome-icon
+          class="trash"
+          icon="fa-solid fa-trash"
+          size="sm"
+        />
       </button>
     </div>
-    <Popup 
-      v-if="popupTriggers.buttonTrigger">
+    <Popup
+      v-if="popupTriggers.buttonTrigger"
+    >
       <h2>Really? Delete this city?</h2>
       <div class="btns">
-        <button class="delete" @click="(removeCity(city), TogglePopup('buttonTrigger'))">Delete</button>
-        <button class="cancel" @click="() => TogglePopup('buttonTrigger')">Cancel</button>
+        <button
+          class="delete"
+          @click="(removeCity(city), TogglePopup('buttonTrigger'))"
+        >
+          Delete
+        </button>
+        <button
+          class="cancel"
+          @click="() => TogglePopup('buttonTrigger')"
+        >
+          Cancel
+        </button>
       </div>
     </Popup>
   </div>
@@ -24,49 +44,38 @@
 
 <script setup>
 
-import { useRoute, useRouter } from "vue-router";
-import { ref } from "vue";
-import Popup from './Popup.vue'
-import { createApp } from 'vue'
+import { useRouter } from 'vue-router'
+import { ref, createApp } from 'vue'
+import Popup from './Popups.vue'
 import App from '../App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faTrash} from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 library.add(faTrash)
 
 createApp(App)
-.component('font-awesome-icon', FontAwesomeIcon)
+  .component('font-awesome-icon', FontAwesomeIcon)
 
-const route = useRoute();
-const router = useRouter();
-let savedCities = ref([]);
+const router = useRouter()
 
 const goToCityView = (city) => {
   router.push({
-    name: "cityView",
+    name: 'cityView',
     params: { state: city.state, city: city.city },
     query: {
       id: city.id,
       lat: city.coords.lat,
-      lng: city.coords.lng,
-    },
-  });
-};
+      lng: city.coords.lng
+    }
+  })
+}
 const popupTriggers = ref({
-	buttonTrigger: false
-});
+  buttonTrigger: false
+})
 const TogglePopup = (trigger) => {
   popupTriggers.value[trigger] = !popupTriggers.value[trigger]
 }
-const props = defineProps({
-city: {
-  type: Object,
-  default: () => {},
-},
-removeCity: {
-  type: Function,
-}
-});
+
 </script>
 
 <style scoped>

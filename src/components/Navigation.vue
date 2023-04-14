@@ -1,78 +1,101 @@
 <template>
-    <div class="headerContainer">
-        <div class="headerLeft">
-            <RouterLink :to="{ name: 'search' }" class="logo">
-                    <img src="../assets/panda_black&white.png" class="logoImg"/>
-                    <p class="logoText">Weather</p>
-            </RouterLink>
-            <RouterLink :to="{ name: 'savedCities' }" class="logo">
-                    <p class="logoText">
-                        Saved Cities
-                    </p>
-            </RouterLink>
-        </div>
-        <div class="headerCenter" v-if="route.query.preview">
-            <CitySaver 
-                :addCity = addCity 
-                :savedCities = "savedCities" 
-            />
-
-        </div>
-        <div class="headerRight">
-            <font-awesome-icon class="lung" icon="fa-solid fa-language" size="lg" style="color: #FFFFFF; cursor: pointer;" @click=""/>
-            <font-awesome-icon class="thema" icon="fa-solid fa-sun" size="lg" style="color: #FFFFFF;" />
-        </div>
+  <div class="headerContainer">
+    <div class="headerLeft">
+      <RouterLink
+        :to="{ name: 'search' }"
+        class="logo"
+      >
+        <img
+          src="../assets/panda_black&white.png"
+          class="logoImg"
+        >
+        <p class="logoText">
+          Weather
+        </p>
+      </RouterLink>
+      <RouterLink
+        :to="{ name: 'savedCities' }"
+        class="logo"
+      >
+        <p class="logoText">
+          Saved Cities
+        </p>
+      </RouterLink>
     </div>
+    <div
+      v-if="route.query.preview"
+      class="headerCenter"
+    >
+      <CitySaver
+        :add-city="addCity"
+        :saved-cities="savedCities"
+      />
+    </div>
+    <div class="headerRight">
+      <font-awesome-icon
+        class="lung"
+        icon="fa-solid fa-language"
+        size="lg"
+        style="color: #FFFFFF; cursor: pointer;"
+        @click=""
+      />
+      <font-awesome-icon
+        class="thema"
+        icon="fa-solid fa-sun"
+        size="lg"
+        style="color: #FFFFFF;"
+      />
+    </div>
+  </div>
 </template>
-  
+
 <script setup>
-import { RouterLink, useRoute, useRouter } from "vue-router";
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faLanguage, faSun } from '@fortawesome/free-solid-svg-icons'
-import { uid } from "uid";
-import { ref, onMounted } from "vue";
+import { uid } from 'uid'
+import { ref, onMounted } from 'vue'
 import CitySaver from './CitySaver.vue'
 library.add(faLanguage, faSun)
 
-
-const savedCities = ref([]);
-const route = useRoute();
-const router = useRouter();
+const savedCities = ref([])
+const route = useRoute()
+const router = useRouter()
 const addCity = () => {
-    if (localStorage.getItem("savedCities")) {
+  if (localStorage.getItem('savedCities')) {
     savedCities.value = JSON.parse(
-        localStorage.getItem("savedCities")
-    );
-    }
-    const locationObj = {
+      localStorage.getItem('savedCities')
+    )
+  }
+  const locationObj = {
     id: uid(),
     state: route.params.state,
     city: route.params.city,
     coords: {
-        lat: route.query.lat,
-        lng: route.query.lng,
-    },
-    };
-    savedCities.value.push(locationObj);
-    localStorage.setItem(
-    "savedCities",
+      lat: route.query.lat,
+      lng: route.query.lng
+    }
+  }
+  savedCities.value.push(locationObj)
+  localStorage.setItem(
+    'savedCities',
     JSON.stringify(savedCities.value)
-    );
-    let query = Object.assign({}, route.query);
-    delete query.preview;
-    query.id = locationObj.id;
-    router.replace({ query });
-};
+  )
+  const query = Object.assign({}, route.query)
+  delete query.preview
+  query.id = locationObj.id
+  router.replace({ query })
+}
 
 onMounted(() => {
-    if (localStorage.getItem("savedCities")) {
-        savedCities.value = JSON.parse(
-            localStorage.getItem("savedCities")
-        );
-    }
+  if (localStorage.getItem('savedCities')) {
+    savedCities.value = JSON.parse(
+      localStorage.getItem('savedCities')
+    )
+  }
 })
-  
+
 </script>
 
 <style scoped>

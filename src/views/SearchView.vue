@@ -3,16 +3,16 @@
     <Suspense>
       <Search />
       <template #fallback>
-        <Loader/>
+        <Loader />
       </template>
     </Suspense>
   </div>
 </template>
 
 <script setup>
-import Loader from "../components/Loader.vue";
+import Loader from '../components/Loader.vue'
 
-import Search from "../components/Search.vue";
+import Search from '../components/Search.vue'
 </script>
 
 <style scoped>
