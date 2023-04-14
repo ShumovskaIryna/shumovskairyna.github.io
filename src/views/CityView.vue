@@ -3,13 +3,14 @@
     <Suspense>
       <AsyncCityView />
       <template #fallback>
-        <p>Loading...</p>
+        <Loader />
       </template>
     </Suspense>
   </div>
 </template>
   
 <script setup>
+import Loader from "../components/Loader.vue";
 import AsyncCityView from "../components/AsyncCityView.vue";
 </script>
 

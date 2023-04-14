@@ -3,13 +3,14 @@
     <Suspense>
       <SavedCitiesView />
       <template #fallback>
-        <p>Loading...</p>
+        <Loader />
       </template>
     </Suspense>
   </div>
 </template>
   
 <script setup>
+import Loader from '../components/Loader.vue'
 import SavedCitiesView from "../components/SavedCitiesView.vue";
 </script>
 

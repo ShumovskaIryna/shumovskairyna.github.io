@@ -1,10 +1,15 @@
 <template>
   <div class="cityContainer">
     <!-- Alert -->
-    <div v-if="route.query.preview" class="alert">
+    <div v-if="route.query.preview && savedCities.length <= 4" class="alert">
       <p>
         You are currently previewing this city, click the "+"
         icon to start tracking this city.
+      </p>
+    </div>
+    <div v-else-if="route.query.preview && savedCities.length > 4" class="alert_danger">
+      <p>
+        In order to add - delete the city, 5 is a max.
       </p>
     </div>
     <!-- Weather Overview -->
@@ -78,14 +83,39 @@
         </div>
       </div>
     </div>
+    <div class="remove" @click="() => TogglePopup('buttonTrigger')">
+      <p><font-awesome-icon class="trash" icon="fa-solid fa-trash" size="sm" /> 
+        Remove city
+      </p>
+    </div>
+
+		<Popup 
+			v-if="popupTriggers.buttonTrigger">
+			<h2>Really? Delete this city?</h2>
+      <div class="btns">
+        <button class="delete" @click="removeCity()">Delete</button>
+        <button class="cancel" @click="() => TogglePopup('buttonTrigger')">Cancel</button>
+      </div>
+		</Popup>
   </div>
 </template>
   
 <script setup>
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { ref } from "vue";
+import Popup from './Popup.vue'
 import Chart from 'chart.js/auto';
 import { onMounted } from "vue";
+import { createApp } from 'vue'
+import App from '../App.vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faTrash} from '@fortawesome/free-solid-svg-icons'
+library.add(faTrash)
+
+createApp(App)
+.component('font-awesome-icon', FontAwesomeIcon)
 
 const route = useRoute();
 
@@ -110,11 +140,19 @@ const getWeatherData = async () => {
     console.log(err);
   }
 };
+const savedCities = ref([]);
+const getCities = async () => {
+  if (localStorage.getItem("savedCities")) {
+    savedCities.value = JSON.parse(
+      localStorage.getItem("savedCities")
+    );
+  }
+}; 
+getCities();
 
 const weatherData = await getWeatherData();
 
 let hours = weatherData.hourly;
-console.log(hours);
 let temps = [];
 let feels = [];
 
@@ -180,6 +218,28 @@ onMounted(() => {
     config
   );
 })
+const popupTriggers = ref({
+			buttonTrigger: false
+		});
+	const TogglePopup = (trigger) => {
+			popupTriggers.value[trigger] = !popupTriggers.value[trigger]
+		}
+
+const router = useRouter();
+
+const removeCity = () => {
+  const cities = JSON.parse(localStorage.getItem("savedCities"));
+  const updatedCities = cities.filter(
+    (city) => city.id !== route.query.id
+  );
+  localStorage.setItem(
+    "savedCities",
+    JSON.stringify(updatedCities)
+  );
+  router.push({
+    name: "savedCities",
+  });
+};
 </script>
 
 <style scoped>
@@ -190,13 +250,45 @@ onMounted(() => {
   justify-content: center;
   padding: 30px;
 }
-.alert{
+.alert, .alert_danger{
   width: 100%;
   height: fit-content;
   min-height: 40px;
   padding: 10px 0;
   text-align: center;
   background-color: rgb(110, 145, 0);
+}
+.alert{
+  background-color: rgb(110, 145, 0);
+}
+.alert_danger{
+  background-color: rgb(154, 39, 81);
+}
+.remove{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+}
+.btns{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 30px;
+}
+.delete{
+  padding: 10px;
+  border: 2px solid rgb(255, 165, 198);
+  background-color: rgb(154, 39, 81);
+  color: aliceblue;
+}
+.cancel {
+  padding: 10px;
+  border: 2px solid rgb(205, 165, 111);
+  background-color: rgb(134, 114, 26);
+  color: aliceblue;
 }
 p {
   font-size: 16px;
@@ -330,5 +422,15 @@ h1, h2 {
     width: 30%;
     margin: 5px;
   }
+}
+.remove {
+  cursor: pointer;
+}
+.trash {
+  color: white;
+  margin: 0 10px;
+}
+.trash:hover {
+ color: rgb(255, 116, 116);
 }
 </style>
