@@ -104,7 +104,7 @@
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { ref } from "vue";
-import Popup from './Popup.vue'
+import Popup from './Popups.vue'
 import Chart from 'chart.js/auto';
 import { onMounted } from "vue";
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -208,7 +208,6 @@ const config = {
   },
 };
 onMounted(() => {
-  const myChart = 
   new Chart(
     document.getElementById('myChart'), 
     config

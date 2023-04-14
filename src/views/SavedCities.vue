@@ -8,10 +8,10 @@
     </Suspense>
   </div>
 </template>
-  
+
 <script setup>
 import Loader from '../components/Loader.vue'
-import SavedCitiesView from "../components/SavedCitiesView.vue";
+import SavedCitiesView from '../components/SavedCitiesView.vue'
 </script>
 
 <style scoped>
