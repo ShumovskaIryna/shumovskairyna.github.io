@@ -1,7 +1,10 @@
 <template>
   <div class="citiesContainer">
     <div class="city_card" v-for="city in savedCities" :key="city.id">
-      <CityCard :city="city" @click="goToCityView(city)" />
+      <CityCard 
+        :city="city"
+        :removeCity = removeCity
+       />
     </div>
   </div>
   <div v-if="savedCities.length === 0" class="alertContainer">
@@ -17,6 +20,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import CityCard from "./CityCard.vue";
 const savedCities = ref([]);
+
 const getCities = async () => {
   if (localStorage.getItem("savedCities")) {
     savedCities.value = JSON.parse(
@@ -38,17 +42,22 @@ const getCities = async () => {
 };
 await getCities();
 const router = useRouter();
-const goToCityView = (city) => {
-  router.push({
-    name: "cityView",
-    params: { state: city.state, city: city.city },
-    query: {
-      id: city.id,
-      lat: city.coords.lat,
-      lng: city.coords.lng,
-    },
-  });
+
+const removeCity = async (cityToDelete) => {
+  console.log('cityToDelete', cityToDelete.id);
+  const cities = JSON.parse(localStorage.getItem("savedCities"));
+  
+  const updatedCities = cities.filter(
+    (city) => city.id !== cityToDelete.id
+  );
+  localStorage.setItem(
+    "savedCities",
+    JSON.stringify(updatedCities)
+  );
+  await getCities();
+  const cities2 = JSON.parse(localStorage.getItem("savedCities"));
 };
+
 </script>
 
 <style scoped>
