@@ -1,8 +1,9 @@
 {
     "placeholder": "Search for a city",
     "route": "Saved Cities",
-    "alert": "You are currently previewing this city, click the `+` icon to start tracking this city.",
+    "alert": "You are currently previewing this city, click the '+' icon to start tracking this city.",
     "alertDanger": "In order to add - delete the city, 5 is a max.",
+    "feel": "Feels like",
     "titleHour": "48 Hour Forecast",
     "titleDay": "7 Day Forecast",
     "remove":  "Remove city",
@@ -10,5 +11,8 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "ok": "Ok, I see",
-    "details": "Details"
+    "details": "Details",
+    "noLocations": "No locations added. To start tracking a location, search on home page.",
+    "smthWrong": "Sorry, something went wrong, please try again.",
+    "noResults": "No results match your query, try a different term."
 }

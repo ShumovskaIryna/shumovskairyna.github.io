@@ -19,7 +19,7 @@
         class="logo"
       >
         <p class="logoText">
-          Saved Cities
+          {{ $t('route') }}
         </p>
       </RouterLink>
     </div>
@@ -37,7 +37,7 @@
         class="lung"
         icon="fa-solid fa-language"
         size="lg"
-        @click="changeLanguage()"
+        @click="changeLanguage"
       />
       <font-awesome-icon
         id="icon"
@@ -58,20 +58,12 @@ import { faLanguage, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { uid } from 'uid'
 import { ref, onMounted } from 'vue'
 import CitySaver from './CitySaver.vue'
-import en from '../i18n/en.json'
-import uk from '../i18n/uk.json'
-import { createI18n, userI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n'
+
 library.add(faLanguage, faSun, faMoon)
 
-const defaultLocale = 'en'
-const laguages = {
-  en,
-  uk
-}
-const i18n = createI18n({
-  legacy: false,
-  fallbackLocale: 'en'
-})
+const { locale } = useI18n({ useScope: 'global' })
+
 const savedCities = ref([])
 const route = useRoute()
 const router = useRouter()
@@ -112,8 +104,10 @@ onMounted(() => {
 const changeThema = () => {
   document.body.classList.toggle('dark')
 }
+
 const changeLanguage = () => {
-  // document.body.classList.toggle('dark')
+  locale.value === 'en' ? locale.value = 'uk' : locale.value = 'en'
+  console.log(locale.value)
 }
 
 </script>

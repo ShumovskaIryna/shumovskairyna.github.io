@@ -9,7 +9,7 @@
           name="city"
           class="searchInput"
           onChange="{onInputChange}"
-          placeholder="Search for a city"
+          :placeholder="$t('placeholder')"
           @input="getSearchResults"
         >
         <div className="suggestion_bar">
@@ -18,10 +18,10 @@
             class="suggestion_list"
           >
             <p v-if="searchError">
-              Sorry, something went wrong, please try again.
+              {{ $t('smthWrong') }}
             </p>
             <p v-if="!searchError && mapboxSearchResults.length === 0">
-              No results match your query, try a different term.
+              {{ $t('noResults') }}
             </p>
             <template v-else>
               <li
@@ -50,13 +50,16 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import '../../index.css'
+import { useI18n } from 'vue-i18n'
+
+useI18n({ useScope: 'global' })
 
 const router = useRouter()
 const previewCity = (searchResult) => {
   const [city, state] = searchResult.place_name.split(',')
   router.push({
     name: 'cityView',
-    params: { state: state.replaceAll(' ', ''), city: city },
+    params: { state: state.replaceAll(' ', ''), city },
     query: {
       lat: searchResult.geometry.coordinates[1],
       lng: searchResult.geometry.coordinates[0],

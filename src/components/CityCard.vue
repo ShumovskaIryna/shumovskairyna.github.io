@@ -13,7 +13,7 @@
         class="detail_info"
         @click="goToCityView(city)"
       >
-        Details
+        {{ $t('details') }}
       </button>
       <button
         class="delete"
@@ -29,19 +29,19 @@
     <Popup
       v-if="popupTriggers.buttonTrigger"
     >
-      <h2>Really? Delete this city?</h2>
+      <h2>{{ $t('popupDelete') }}</h2>
       <div class="btns">
         <button
           class="delete"
           @click="(removeCity(city), TogglePopup('buttonTrigger'))"
         >
-          Delete
+          {{ $t('delete') }}
         </button>
         <button
           class="cancel"
           @click="() => TogglePopup('buttonTrigger')"
         >
-          Cancel
+          {{ $t('cancel') }}
         </button>
       </div>
     </Popup>
@@ -57,7 +57,11 @@ import App from '../App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { useI18n } from 'vue-i18n'
+
 library.add(faTrash)
+
+useI18n({ useScope: 'global' })
 
 createApp(App)
   .component('font-awesome-icon', FontAwesomeIcon)
