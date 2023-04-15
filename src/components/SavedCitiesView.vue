@@ -25,6 +25,7 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import CityCard from './CityCard.vue'
+import '../../index.css'
 const savedCities = ref([])
 
 const getCities = async () => {
@@ -78,7 +79,6 @@ onMounted(async () => {
 .city_card {
   position: relative;
   display: inline-block;
-  background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
   width: 31%;
   cursor: pointer;
@@ -87,12 +87,10 @@ onMounted(async () => {
 .alertContainer {
   position: relative;
   display: inline-block;
-  background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
   width: 95%;
   cursor: pointer;
   margin: 10px;
-  color:aliceblue;
 }
 @media (max-width: 992px) {
   .citiesContainer{

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="searchCityContainer">
     <div class="search_container">
@@ -48,6 +49,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import '../../index.css'
 
 const router = useRouter()
 const previewCity = (searchResult) => {
@@ -106,7 +108,7 @@ const getSearchResults = () => {
   position: relative;
   display: flex;
   height: 60px;
-  background-color: white;
+  background-color: aliceblue;
   align-items: center;
   border-radius: 30px;
 }
@@ -114,6 +116,7 @@ const getSearchResults = () => {
   border: none;
   font-size: larger;
   margin: 5px 20px;
+  background-color: aliceblue;
 }
 .searchInput:focus {
   outline: none;
@@ -151,19 +154,16 @@ const getSearchResults = () => {
   width: 90%;
 }
 .suggestion_list{
-  background-color: rgba(0, 0, 0, 0.2);
   width: auto;
   text-align: start;
   padding: 10px 10px;
 }
 .suggestion_city{
-  background-color: rgba(0, 0, 0, 0.4);
   list-style: none;
   font-size: medium;
   cursor: pointer;
   margin: 10px 10px;
   padding: 10px 10px;
-  color: white;
 }
 .rain_panda{
   position: absolute;

@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="city.weather"
-    class="day_card"
+    class="today_card"
   >
     <h2>{{ city.city }}</h2>
     <p>
@@ -95,7 +95,7 @@ defineProps({
 </script>
 
 <style scoped>
-.day_card {
+.today_card {
   position: relative;
   display: inline-block;
   text-align: center;
@@ -123,11 +123,9 @@ defineProps({
 }
 p {
   font-size: 26px;
-  color: rgb(255, 255, 255);
 }
 h1, h2 {
   font-size: 24px;
-  color: rgb(255, 255, 255);
 }
 .detail_info {
   padding: 10px;

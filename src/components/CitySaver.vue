@@ -4,7 +4,6 @@
     class="plus"
     icon="fa-solid fa-plus"
     size="lg"
-    style="color: #FFFFFF; cursor: pointer;"
     @click="addCity"
   />
 
@@ -13,7 +12,6 @@
     class="plus"
     icon="fa-solid fa-plus"
     size="lg"
-    style="color: #FFFFFF; cursor: pointer;"
     @click="() => TogglePopup('buttonTrigger')"
   />
 
@@ -72,6 +70,9 @@ const isAllowedToAddCity = savedCities.value?.length < 5
 </script>
 
 <style scoped>
+.plus{
+  cursor: pointer;
+}
 .cancel {
   padding: 10px;
   border: 2px solid rgb(255, 165, 198);

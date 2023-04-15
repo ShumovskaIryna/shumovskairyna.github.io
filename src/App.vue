@@ -16,7 +16,6 @@ import Navigation from './components/Navigation.vue'
 
 <style scoped>
 .container {
-  background-color: rgba(0, 0, 0, 0.4);
   min-height: 100vh;
   max-width: 1200px;
   margin: 0 auto;
@@ -24,7 +23,6 @@ import Navigation from './components/Navigation.vue'
   height: fit-content;
 }
 .header {
-  background-color: rgba(0, 0, 0, 0.7);
   position: fixed;
   width: 100%;
   top: 0;

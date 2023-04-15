@@ -1,11 +1,12 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="citiesContainer">
     <div class="city_card">
       <font-awesome-icon
+        class="loading"
         icon="fa-solid fa-spinner"
         spin
         size="2xl"
-        style="color: #f7f7f7;"
       />
     </div>
   </div>

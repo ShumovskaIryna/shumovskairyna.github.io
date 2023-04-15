@@ -103,6 +103,7 @@
 <script setup>
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
+import '../../index.css'
 import { ref } from "vue";
 import Popup from './Popups.vue'
 import Chart from 'chart.js/auto';
@@ -251,13 +252,6 @@ const removeCity = () => {
   min-height: 40px;
   padding: 10px 0;
   text-align: center;
-  background-color: rgb(110, 145, 0);
-}
-.alert{
-  background-color: rgb(110, 145, 0);
-}
-.alert_danger{
-  background-color: rgb(154, 39, 81);
 }
 .remove{
   display: flex;
@@ -289,11 +283,9 @@ const removeCity = () => {
 }
 p {
   font-size: 16px;
-  color: rgb(255, 255, 255);
 }
 h1, h2 {
   font-size: 24px;
-  color: rgb(255, 255, 255);
 }
 .daily_info {
   position: relative;
@@ -306,7 +298,6 @@ h1, h2 {
 .city_main_card, .hour_forecast{
   position: relative;
   display: inline-block;
-  background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
   margin: 10px;
 }
@@ -351,7 +342,6 @@ h1, h2 {
 .day_card {
   position: relative;
   display: inline-block;
-  background-color: rgba(0, 0, 0, 0.5);
 
   text-align: center;
   height: auto;
@@ -424,7 +414,6 @@ h1, h2 {
   cursor: pointer;
 }
 .trash {
-  color: white;
   margin: 0 10px;
 }
 .trash:hover {
