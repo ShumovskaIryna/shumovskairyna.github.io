@@ -76,6 +76,16 @@ const TogglePopup = (trigger) => {
   popupTriggers.value[trigger] = !popupTriggers.value[trigger]
 }
 
+defineProps({
+  city: {
+    type: Object,
+    default: () => {}
+  },
+  removeCity: {
+    type: Function
+  }
+})
+
 </script>
 
 <style scoped>
