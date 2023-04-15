@@ -138,23 +138,4 @@ onMounted(() => {
     align-items: center;
     display: flex;
 }
-.btns{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  padding: 30px;
-}
-.delete{
-  padding: 10px;
-  border: 2px solid rgb(255, 165, 198);
-  background-color: rgb(25, 127, 134);
-  color: aliceblue;
-}
-.cancel {
-  padding: 10px;
-  border: 2px solid rgb(205, 165, 111);
-  background-color: rgb(134, 114, 26);
-  color: aliceblue;
-}
 </style>

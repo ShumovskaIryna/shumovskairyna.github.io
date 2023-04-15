@@ -276,14 +276,16 @@ const removeCity = () => {
 .delete{
   padding: 10px;
   border: 2px solid rgb(255, 165, 198);
-  background-color: rgb(154, 39, 81);
+  background-color: rgb(109, 36, 63);
   color: aliceblue;
+  cursor: pointer;
 }
 .cancel {
   padding: 10px;
-  border: 2px solid rgb(205, 165, 111);
-  background-color: rgb(134, 114, 26);
+  border: 2px solid rgb(116, 151, 248);
+  background-color: rgb(65, 101, 178);
   color: aliceblue;
+  cursor: pointer;
 }
 p {
   font-size: 16px;

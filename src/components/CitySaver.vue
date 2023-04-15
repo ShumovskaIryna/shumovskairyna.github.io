@@ -66,3 +66,13 @@ const props = defineProps({
 
 const isAllowedToAddCity = props.savedCities?.length < 5
 </script>
+
+<style scoped>
+.cancel {
+  padding: 10px;
+  border: 2px solid rgb(255, 165, 198);
+  background-color: rgb(109, 36, 63);
+  color: aliceblue;
+  cursor: pointer;
+}
+</style>
