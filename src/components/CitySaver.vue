@@ -19,7 +19,7 @@
     v-if="popupTriggers.buttonTrigger"
   >
     <h2>
-      In order to add - delete the city, 5 is a max.
+      {{ $t('alertDanger') }}
     </h2>
 
     <div class="btns">
@@ -27,7 +27,7 @@
         class="cancel"
         @click="() => TogglePopup('buttonTrigger')"
       >
-        Ok, I see
+        {{ $t('ok') }}
       </button>
     </div>
   </Popup>
@@ -40,8 +40,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Popup from './Popups.vue'
-
+import { useI18n } from 'vue-i18n'
 library.add(faPlus)
+
+useI18n({ useScope: 'global' })
 
 const popupTriggers = ref(
   {

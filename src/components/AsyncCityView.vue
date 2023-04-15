@@ -3,13 +3,12 @@
     <!-- Alert -->
     <div v-if="route.query.preview && savedCities.length <= 4" class="alert">
       <p>
-        You are currently previewing this city, click the "+"
-        icon to start tracking this city.
+        {{ $t('alert') }}
       </p>
     </div>
     <div v-else-if="route.query.preview && savedCities.length > 4" class="alert_danger">
       <p>
-        In order to add - delete the city, 5 is a max.
+        {{ $t('alertDanger') }}
       </p>
     </div>
     <!-- Weather Overview -->
@@ -40,7 +39,7 @@
           {{ Math.round((weatherData.current.temp-32)/1.8) }}&deg;
         </p>
         <p>
-          Feels like
+          {{ $t('feel') }}
           {{ Math.round((weatherData.current.feels_like-32)/1.8) }} &deg;
         </p>
         <p class="">
@@ -50,7 +49,7 @@
       </div>
       <!-- Hourly Weather -->
       <div class="hour_forecast">
-        <h2 class="title">48 Hour Forecast</h2>
+        <h2 class="title">{{ $t('titleHour') }}</h2>
           <canvas id="myChart"></canvas>
       </div>
     </div>
@@ -58,7 +57,7 @@
 
     <!-- Weekly Weather -->
     <div class="weekly_info">
-      <h2 class="title">7 Day Forecast</h2>
+      <h2 class="title">{{ $t('titleDay') }}</h2>
       <div class="day_cards">
         <div
           v-for="day in weatherData.daily"
@@ -85,16 +84,16 @@
     </div>
     <div class="remove" @click="() => TogglePopup('buttonTrigger')">
       <p><font-awesome-icon class="trash" icon="fa-solid fa-trash" size="sm" /> 
-        Remove city
+        {{ $t('remove') }}
       </p>
     </div>
 
 		<Popup 
 			v-if="popupTriggers.buttonTrigger">
-			<h2>Really? Delete this city?</h2>
+			<h2>{{ $t('popupDelete') }}</h2>
       <div class="btns">
-        <button class="delete" @click="removeCity()">Delete</button>
-        <button class="cancel" @click="() => TogglePopup('buttonTrigger')">Cancel</button>
+        <button class="delete" @click="removeCity()">{{ $t('delete') }}</button>
+        <button class="cancel" @click="() => TogglePopup('buttonTrigger')">{{ $t('cancel') }}</button>
       </div>
 		</Popup>
   </div>
@@ -111,8 +110,11 @@ import { onMounted } from "vue";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTrash} from '@fortawesome/free-solid-svg-icons'
+import { useI18n } from 'vue-i18n'
+
 library.add(faTrash)
 
+const { t } = useI18n({useScope: 'global'})
 
 const route = useRoute();
 

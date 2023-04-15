@@ -19,7 +19,7 @@
         class="logo"
       >
         <p class="logoText">
-          Saved Cities
+          {{ $t('route') }}
         </p>
       </RouterLink>
     </div>
@@ -37,6 +37,7 @@
         class="lung"
         icon="fa-solid fa-language"
         size="lg"
+        @click="changeLanguage"
       />
       <font-awesome-icon
         id="icon"
@@ -57,7 +58,11 @@ import { faLanguage, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { uid } from 'uid'
 import { ref, onMounted } from 'vue'
 import CitySaver from './CitySaver.vue'
+import { useI18n } from 'vue-i18n'
+
 library.add(faLanguage, faSun, faMoon)
+
+const { locale } = useI18n({ useScope: 'global' })
 
 const savedCities = ref([])
 const route = useRoute()
@@ -94,10 +99,21 @@ onMounted(() => {
       localStorage.getItem('savedCities')
     )
   }
+  const thema = localStorage.getItem('thema')
+  document.body.classList.toggle(thema)
 })
 
 const changeThema = () => {
+  let thema = localStorage.getItem('thema')
+  thema === 'dark' ? thema = 'light' : thema = 'dark'
+  localStorage.setItem('thema', thema)
+
   document.body.classList.toggle('dark')
+}
+
+const changeLanguage = () => {
+  locale.value === 'en' ? locale.value = 'uk' : locale.value = 'en'
+  localStorage.setItem('lang', locale.value)
 }
 
 </script>

@@ -16,7 +16,7 @@
     class="alertContainer"
   >
     <p>
-      No locations added. To start tracking a location, search on home page.
+      {{ $t('noLocations') }}
     </p>
   </div>
 </template>
@@ -26,6 +26,9 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import CityCard from './CityCard.vue'
 import '../../index.css'
+import { useI18n } from 'vue-i18n'
+
+useI18n({ useScope: 'global' })
 const savedCities = ref([])
 
 const getCities = async () => {
