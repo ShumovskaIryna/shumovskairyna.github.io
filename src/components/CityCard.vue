@@ -1,18 +1,24 @@
 <template>
   <div
     v-if="city.weather"
-    class="day_card"
+    class="today_card"
   >
     <h2>{{ city.city }}</h2>
     <p>
       {{ Math.round((city.weather.main.temp-32)/1.8) }}&deg; C
     </p>
     <img :src="`http://openweathermap.org/img/wn/${city.weather.weather[0].icon}@2x.png`">
-    <div class="remove">
-      <button @click="goToCityView(city)">
+    <div class="btns">
+      <button
+        class="detail_info"
+        @click="goToCityView(city)"
+      >
         Details
       </button>
-      <button @click="() => TogglePopup('buttonTrigger')">
+      <button
+        class="delete"
+        @click="() => TogglePopup('buttonTrigger')"
+      >
         <font-awesome-icon
           class="trash"
           icon="fa-solid fa-trash"
@@ -89,44 +95,43 @@ defineProps({
 </script>
 
 <style scoped>
-.day_card {
+.today_card {
   position: relative;
   display: inline-block;
   text-align: center;
-}
-.remove{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  padding: 10px;
 }
 .btns{
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+  padding-bottom: 20px;
 }
 .delete{
   padding: 10px;
   border: 2px solid rgb(255, 165, 198);
-  background-color: rgb(154, 39, 81);
+  background-color: rgb(109, 36, 63);
   color: aliceblue;
   cursor: pointer;
 }
 .cancel {
   padding: 10px;
-  border: 2px solid rgb(205, 165, 111);
-  background-color: rgb(134, 114, 26);
+  border: 2px solid rgb(116, 151, 248);
+  background-color: rgb(65, 101, 178);
   color: aliceblue;
   cursor: pointer;
 }
 p {
   font-size: 26px;
-  color: rgb(255, 255, 255);
 }
 h1, h2 {
   font-size: 24px;
-  color: rgb(255, 255, 255);
+}
+.detail_info {
+  padding: 10px;
+  border: 2px solid rgb(116, 151, 248);
+  background-color: rgb(65, 101, 178);
+  color: aliceblue;
+  cursor: pointer;
 }
 </style>

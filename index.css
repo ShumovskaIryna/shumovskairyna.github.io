@@ -1,6 +1,60 @@
+html .dark{
+    --primary-background: linear-gradient(#8a5d96, #4b4593);
+    --primary-color: aliceblue;
+    --secondary-color: rgb(0, 10, 20);
+    --primary-background5-color: rgba(0, 0, 0, 0.5);
+    --primary-background4-color: rgba(0, 0, 0, 0.4);
+    --primary-background2-color: rgba(0, 0, 0, 0.2);
+    --primary-background7-color: rgba(0, 0, 0, 0.7);
+    --primary-alert-color: rgb(110, 145, 0);
+    --primary-alert-danger-color: rgb(154, 39, 81);
+}
+html{
+    --primary-background: linear-gradient(#ffdcf7, #8c86c6);
+    --primary-color: rgb(0, 10, 20);
+    --secondary-color: aliceblue;
+    --primary-background5-color: rgba(224, 224, 224, 0.5);
+    --primary-background4-color: rgba(224, 224, 224, 0.4);
+    --primary-background2-color: rgba(224, 224, 224, 0.2);
+    --primary-background7-color: rgba(224, 224, 224, 0.7);
+    --primary-alert-color: rgb(217, 250, 106);
+    --primary-alert-danger-color: rgb(255, 94, 153);
+}
+.city_main_card, .hour_forecast{
+    background-color: var(--primary-background5-color);
+  }
+.day_card {
+    background-color: var(--primary-background5-color);
+  }
+.city_card {
+    background-color: var(--primary-background5-color);
+  }
+.alertContainer {
+    background-color: var(--primary-background5-color);
+  }
+.suggestion_list{
+    background-color: var(--primary-background2-color);
+  }
+.suggestion_city{
+    background-color: var(--primary-background4-color);
+  }
+.container {
+    background-color: var(--primary-background4-color);
+  }
+.header {
+    background-color: var(--primary-background7-color);
+  }
+.alert{
+    background-color: var(--primary-alert-color);
+  }
+.alert_danger{
+    background-color: var(--primary-alert-danger-color);
+  }
+
 body{
     margin: 0;
-    background: linear-gradient(#8a5d96, #4b4593);
+    background: var(--primary-background);
+    color: var(--primary-color);
 }
 .wrapper {
     display:flex;

@@ -37,13 +37,13 @@
         class="lung"
         icon="fa-solid fa-language"
         size="lg"
-        style="color: #FFFFFF; cursor: pointer;"
       />
       <font-awesome-icon
-        class="thema"
-        icon="fa-solid fa-sun"
+        id="icon"
+        class="dark_thema"
+        icon="fa-solid fa-moon"
         size="lg"
-        style="color: #FFFFFF;"
+        @click="changeThema()"
       />
     </div>
   </div>
@@ -53,11 +53,11 @@
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faLanguage, faSun } from '@fortawesome/free-solid-svg-icons'
+import { faLanguage, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { uid } from 'uid'
 import { ref, onMounted } from 'vue'
 import CitySaver from './CitySaver.vue'
-library.add(faLanguage, faSun)
+library.add(faLanguage, faSun, faMoon)
 
 const savedCities = ref([])
 const route = useRoute()
@@ -96,6 +96,10 @@ onMounted(() => {
   }
 })
 
+const changeThema = () => {
+  document.body.classList.toggle('dark')
+}
+
 </script>
 
 <style scoped>
@@ -121,40 +125,28 @@ onMounted(() => {
     align-items: center;
     flex: 2;
 }
-.logo, .plus, .lung, .thema {
+.logo, .plus, .lung{
     cursor: pointer;
     text-decoration-line: none;
     padding: 10px 15px;
+    color: var(--n);
+}
+.dark_thema {
+    cursor: pointer;
+    text-decoration-line: none;
+    color: var(--n);
+    padding: 10px 5px;
 }
 .logoText {
     font-size: 18px;
     margin: 1px;
     font-weight: bold;
-    color: rgb(255, 255, 255);
+    color: var(--n);
 }
 .logoImg{
     margin-left: 10px;
     height: 50px;
     align-items: center;
     display: flex;
-}
-.btns{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  padding: 30px;
-}
-.delete{
-  padding: 10px;
-  border: 2px solid rgb(255, 165, 198);
-  background-color: rgb(25, 127, 134);
-  color: aliceblue;
-}
-.cancel {
-  padding: 10px;
-  border: 2px solid rgb(205, 165, 111);
-  background-color: rgb(134, 114, 26);
-  color: aliceblue;
 }
 </style>

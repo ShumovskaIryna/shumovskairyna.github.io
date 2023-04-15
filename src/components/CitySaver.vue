@@ -4,7 +4,6 @@
     class="plus"
     icon="fa-solid fa-plus"
     size="lg"
-    style="color: #FFFFFF; cursor: pointer;"
     @click="addCity"
   />
 
@@ -13,7 +12,6 @@
     class="plus"
     icon="fa-solid fa-plus"
     size="lg"
-    style="color: #FFFFFF; cursor: pointer;"
     @click="() => TogglePopup('buttonTrigger')"
   />
 
@@ -50,19 +48,36 @@ const popupTriggers = ref(
     buttonTrigger: false
   }
 )
+
+const savedCities = ref([])
+
+if (localStorage.getItem('savedCities')) {
+  savedCities.value = JSON.parse(
+    localStorage.getItem('savedCities')
+  )
+}
+
 const TogglePopup = (trigger) => {
   popupTriggers.value[trigger] = !popupTriggers.value[trigger]
 }
 
-const props = defineProps({
-  savedCities: {
-    type: Object,
-    default: () => {}
-  },
+defineProps({
   addCity: {
     type: Function
   }
 })
-
-const isAllowedToAddCity = props.savedCities?.length < 5
+const isAllowedToAddCity = savedCities.value?.length < 5
 </script>
+
+<style scoped>
+.plus{
+  cursor: pointer;
+}
+.cancel {
+  padding: 10px;
+  border: 2px solid rgb(255, 165, 198);
+  background-color: rgb(109, 36, 63);
+  color: aliceblue;
+  cursor: pointer;
+}
+</style>
