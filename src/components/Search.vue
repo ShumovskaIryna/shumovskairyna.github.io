@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeUnmount } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import '../../index.css'
@@ -55,6 +55,7 @@ import { useI18n } from 'vue-i18n'
 useI18n({ useScope: 'global' })
 
 const router = useRouter()
+
 const previewCity = (searchResult) => {
   const [city, state] = searchResult.place_name.split(',')
   router.push({
@@ -75,7 +76,6 @@ const mapboxSearchResults = ref(null)
 const searchError = ref(null)
 
 const getSearchResults = () => {
-  clearTimeout(queryTimeout.value)
   queryTimeout.value = setTimeout(async () => {
     if (searchQuery.value !== '') {
       try {
@@ -88,9 +88,16 @@ const getSearchResults = () => {
       }
       return
     }
+    console.log(3)
     mapboxSearchResults.value = null
   }, 300)
+
+  console.log(queryTimeout.value)
 }
+
+onBeforeUnmount(() => {
+  clearTimeout(queryTimeout.value)
+})
 </script>
 
 <style scoped>

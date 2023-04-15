@@ -3,7 +3,7 @@
   <div class="headerContainer">
     <div class="headerLeft">
       <RouterLink
-        :to="{ name: 'search' }"
+        :to="{ name: 'SearchView' }"
         class="logo"
       >
         <img
