@@ -1,7 +1,7 @@
 <template>
   <div class="citiesContainer">
     <div
-      v-for="city in savedCities"
+      v-for="city in cities"
       :key="city.id"
       class="city_card"
     >
@@ -12,7 +12,7 @@
     </div>
   </div>
   <div
-    v-if="savedCities.length === 0"
+    v-if="cities.length === 0"
     class="alertContainer"
   >
     <p>
@@ -22,8 +22,8 @@
 </template>
 
 <script setup>
-import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
+import { useStore } from 'vuex'
 import CityCard from './CityCard.vue'
 import '../../index.css'
 import { useI18n } from 'vue-i18n'
@@ -31,42 +31,24 @@ import { useI18n } from 'vue-i18n'
 useI18n({ useScope: 'global' })
 const savedCities = ref([])
 
-const getCities = async () => {
-  if (localStorage.getItem('savedCities')) {
-    savedCities.value = JSON.parse(
-      localStorage.getItem('savedCities')
-    )
-    const requests = []
-    savedCities.value.forEach((city) => {
-      requests.push(
-        axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${city.coords.lat}&lon=${city.coords.lng}&appid=7efa332cf48aeb9d2d391a51027f1a71&units=imperial`
-        )
-      )
-    })
-    const weatherData = await Promise.all(requests)
-    weatherData.forEach((value, index) => {
-      savedCities.value[index].weather = value.data
-    })
+const store = useStore()
+
+const cities = computed({
+  get () {
+    return store.getters.getCities
+  },
+  set (val) {
+    savedCities.value = val
   }
-}
+})
 
 const removeCity = async (cityToDelete) => {
-  console.log('cityToDelete', cityToDelete.id)
-  const cities = JSON.parse(localStorage.getItem('savedCities'))
-
-  const updatedCities = cities.filter(
-    (city) => city.id !== cityToDelete.id
-  )
-  localStorage.setItem(
-    'savedCities',
-    JSON.stringify(updatedCities)
-  )
-  await getCities()
+  store.dispatch('removeCityById', cityToDelete)
+  savedCities.value = store.getters.getCities
 }
 
-onMounted(async () => {
-  await getCities()
+onBeforeMount(async () => {
+  store.dispatch('getCityForecast')
 })
 
 </script>
