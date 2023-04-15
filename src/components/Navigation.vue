@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="headerContainer">
     <div class="headerLeft">
@@ -37,7 +38,6 @@
         icon="fa-solid fa-language"
         size="lg"
         style="color: #FFFFFF; cursor: pointer;"
-        @click=""
       />
       <font-awesome-icon
         class="thema"

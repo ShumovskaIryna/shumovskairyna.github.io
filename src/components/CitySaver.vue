@@ -58,6 +58,9 @@ const props = defineProps({
   savedCities: {
     type: Object,
     default: () => {}
+  },
+  addCity: {
+    type: Function
   }
 })
 
