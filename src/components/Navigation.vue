@@ -99,15 +99,21 @@ onMounted(() => {
       localStorage.getItem('savedCities')
     )
   }
+  const thema = localStorage.getItem('thema')
+  document.body.classList.toggle(thema)
 })
 
 const changeThema = () => {
+  let thema = localStorage.getItem('thema')
+  thema === 'dark' ? thema = 'light' : thema = 'dark'
+  localStorage.setItem('thema', thema)
+
   document.body.classList.toggle('dark')
 }
 
 const changeLanguage = () => {
   locale.value === 'en' ? locale.value = 'uk' : locale.value = 'en'
-  console.log(locale.value)
+  localStorage.setItem('lang', locale.value)
 }
 
 </script>

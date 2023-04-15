@@ -5,9 +5,11 @@ import App from './App.vue'
 import router from './router'
 
 const messages = Object.assign(languages)
+const localeStorageLang = localStorage.getItem('lang')
+
 const i18n = createI18n({
   legacy: false,
-  locale: defaultLocale,
+  locale: localeStorageLang || defaultLocale,
   fallbackLocale: 'uk',
   messages
 })
